@@ -1,0 +1,37 @@
+# General
+*.log
+*.log.*
+*.pid
+*~
+
+# IDE-specific
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+*.iws
+*.iml
+*.ipr
+
+# Editor/OS Backup Files
+*~
+
+# Temporary Files
+.tmp/
+temp/
+
+# Configuration Files with Sensitive Information
+application.properties
+# (Should be handled separately from the repository)
+# .env
+
+# IDE Directories
+.idea/
+.vscode/
+
+# Build Output
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
