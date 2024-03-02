@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("/api/schedules")
 public class InjectionScheduleController {
@@ -18,6 +17,7 @@ public class InjectionScheduleController {
     @GetMapping
     public ResponseEntity<List<InjectionSchedule>> getCurrentInjection() {
         List<InjectionSchedule> schedules = scheduleService.getAllSchedules();
+        System.out.println("Recevied schedules: " + schedules);
         return new ResponseEntity<>(schedules, HttpStatus.OK);
     }
 

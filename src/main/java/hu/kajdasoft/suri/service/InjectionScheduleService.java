@@ -11,6 +11,8 @@ import java.util.List;
 
 @Service
 public class InjectionScheduleService {
+    private static int currentIndex = 0;
+
     @Autowired
     private InjectionScheduleRepository scheduleRepository;
 
@@ -20,8 +22,8 @@ public class InjectionScheduleService {
     }
 
     // Method to implement rotation logic for body parts
-    public BodyPart getNextBodyPart() {
-        return BodyPart.getNextBodyPart();
+    public BodyPart getNextBodyPart(int index) {
+        return BodyPart.getNextBodyPart(index);
     }
 
     // Method to mark an injection as completed
@@ -42,12 +44,13 @@ public class InjectionScheduleService {
         LocalDate currentDate = startDate;
         while (currentDate.isBefore(endDate)) {
             // Generate injection schedule for currentDate
-            BodyPart bodyPart = getNextBodyPart();
+            BodyPart bodyPart = getNextBodyPart(currentIndex);
             InjectionSchedule schedule = new InjectionSchedule(bodyPart, currentDate, false);
             scheduleRepository.save(schedule);
 
             // Move to the next injection date (every second day)
             currentDate = currentDate.plusDays(2);
+            currentIndex = (currentIndex + 1) % BodyPart.values().length; // Update currentIndex
         }
     }
 }

@@ -1,56 +1,69 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Dummy injection schedule data (replace with actual data from backend)
-    const scheduleData = [
-        { bodyPart: 'Bal Kar', injectionDate: '2024-02-17', injectionCompleted: false },
-        { bodyPart: 'Jobb Kar', injectionDate: '2024-02-18', injectionCompleted: false },
-        { bodyPart: 'Bal Comb', injectionDate: '2024-02-19', injectionCompleted: false }
-    ];
+document.addEventListener('DOMContentLoaded', async function() {
+    const current_date_elem = document.getElementById('current-date');
+    const current_body_part_elem = document.getElementById('current-body-part');
+    const next_date_elem = document.getElementById('next-date');
+    const next_body_part_elem = document.getElementById('next-body-part');
 
-    // Function to find the next injection schedule
-    function findNextInjection() {
-        const currentDate = new Date().toISOString().split('T')[0];
-        const nextInjection = scheduleData.find(schedule => schedule.injectionDate > currentDate);
-        return nextInjection;
+    async function fetchInjectionSchedule() {
+        try {
+            const response = await fetch('/api/schedules');
+            if (!response.ok) {
+                throw new Error('Failed to fetch injection schedule data');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching injection schedule data:', error);
+            return [];
+        }
     }
 
-    // Function to render today's injection and next injection
-    function renderSchedule() {
-        const currentDate = new Date().toLocaleDateString('hu-HU', { year: 'numeric', month: '2-digit', day: '2-digit' }).split('.').join('.');
-        document.getElementById('current-date').textContent = `Dátum: ${currentDate}`;
-
-        const currentInjection = scheduleData.find(schedule => schedule.injectionDate === currentDate);
-        if (currentInjection) {
-            document.getElementById('current-body-part').textContent = `Beadási hely: ${currentInjection.bodyPart}`;
+    function renderSchedule(scheduleData) {
+        if (scheduleData.length >= 2) {
+            current_date_elem.textContent = scheduleData[0].injectionDate;
+            current_body_part_elem.textContent = scheduleData[0].bodyPart;
+            next_date_elem.textContent = scheduleData[1].injectionDate;
+            next_body_part_elem.textContent = scheduleData[1].bodyPart;
+        } else if (scheduleData.length === 1) {
+            const injection = scheduleData[0];
+            current_date_elem.textContent = injection.injectionDate;
+            current_body_part_elem.textContent = injection.bodyPart;
+            next_date_elem.textContent = injection.injectionDate;
+            next_body_part_elem.textContent = injection.bodyPart;
         } else {
-            document.getElementById('current-body-part').textContent = 'Nincs mára beadás ütemezve';
-            document.getElementById('mark-done-btn').disabled = true;
-        }
-
-        const nextInjection = findNextInjection();
-        if (nextInjection) {
-            const nextDate = new Date(nextInjection.injectionDate).toLocaleDateString('hu-HU', { year: 'numeric', month: '2-digit', day: '2-digit' }).split('.').join('.');
-            document.getElementById('next-date').textContent = `Dátum: ${nextDate}`;
-            document.getElementById('next-body-part').textContent = `Következő beadási hely: ${nextInjection.bodyPart}`;
-        } else {
-            document.getElementById('next-date').textContent = 'Nincs következő beadás';
-            document.getElementById('next-body-part').textContent = '';
+            console.error('No injection schedule data found');
         }
     }
 
-    // Function to mark current injection as done
-    function markDone() {
-        const currentDate = new Date().toLocaleDateString('hu-HU', { year: 'numeric', month: '2-digit', day: '2-digit' }).split('.').join('.');
-        const currentInjectionIndex = scheduleData.findIndex(schedule => schedule.injectionDate === currentDate);
-        if (currentInjectionIndex !== -1) {
-            scheduleData[currentInjectionIndex].injectionCompleted = true;
-            renderSchedule();
-            // Make an API call to update the backend with the marked injection status
+    async function markDone() {
+        try {
+            const scheduleData = await fetchInjectionSchedule();
+            if (scheduleData.length === 0) {
+                console.error('No injection schedule data found');
+                return;
+            }
+            const currentScheduleId = scheduleData[0].id;
+            const response = await fetch(`/api/schedules/${currentScheduleId}/complete`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: currentScheduleId })
+            });
+            if (!response.ok) {
+                throw new Error('Failed to mark injection as done');
+            }
+            await renderSchedule(scheduleData);
+        } catch (error) {
+            console.error('Error marking injection as done:', error);
         }
     }
 
-    // Event listener for the mark as done button
-    document.getElementById('mark-done-btn').addEventListener('click', markDone);
+    const markDoneBtn = document.getElementById('mark-done-btn');
+    if (markDoneBtn) {
+        markDoneBtn.addEventListener('click', markDone);
+    } else {
+        console.error('mark-done-btn not found');
+    }
 
-    // Initial rendering of schedule
-    renderSchedule();
+    renderSchedule(await fetchInjectionSchedule());
 });

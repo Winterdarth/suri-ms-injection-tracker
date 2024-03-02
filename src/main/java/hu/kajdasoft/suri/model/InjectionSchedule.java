@@ -1,9 +1,6 @@
 package hu.kajdasoft.suri.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
@@ -13,17 +10,27 @@ public class InjectionSchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     private BodyPart bodyPart;
     private LocalDate injectionDate;
     private boolean injectionCompleted;
-
-    public InjectionSchedule() {
-    }
 
     public InjectionSchedule(BodyPart bodyPart, LocalDate injectionDate, boolean injectionCompleted) {
         this.bodyPart = bodyPart;
         this.injectionDate = injectionDate;
         this.injectionCompleted = injectionCompleted;
+    }
+
+    public InjectionSchedule() {
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public BodyPart getBodyPart() {
@@ -48,5 +55,14 @@ public class InjectionSchedule {
 
     public void setInjectionCompleted(boolean injectionCompleted) {
         this.injectionCompleted = injectionCompleted;
+    }
+
+    @Override
+    public String toString() {
+        return "InjectionSchedule{" +
+                "id=" + id +
+                ", injectionDate='" + injectionDate + '\'' +
+                ", bodyPart='" + bodyPart + '\'' +
+                '}';
     }
 }

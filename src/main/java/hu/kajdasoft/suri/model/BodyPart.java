@@ -1,25 +1,32 @@
 package hu.kajdasoft.suri.model;
 
 public enum BodyPart {
-    RIGHT_THIGH,
-    RIGHT_BELLY,
-    RIGHT_BUTT,
-    RIGHT_ARM,
-    LEFT_THIGH,
-    LEFT_BELLY,
-    LEFT_BUTT,
-    LEFT_ARM;
+    JOBB_COMB(0),
+    JOBB_HAS(1),
+    JOBB_FENEK(2),
+    JOBB_KAR(3),
+    BAL_COMB(4),
+    BAL_HAS(5),
+    BAL_FENEK(6),
+    BAL_KAR(7);
 
-    private static BodyPart[] values = values();
-    private static int index = 0;
+    private final int index;
 
-    public static BodyPart getNextBodyPart() {
-        BodyPart nextBodyPart = values[index];
-        index = (index + 1) % values.length;
-        return nextBodyPart;
+    BodyPart(int index) {
+        this.index = index;
     }
 
-    public static void setIndex(int index) {
-        BodyPart.index = index;
+    public int getIndex() {
+        return index;
+    }
+
+    // Add a method to get BodyPart by index if needed
+    public static BodyPart getNextBodyPart(int index) {
+        for (BodyPart bodyPart : values()) {
+            if (bodyPart.index == index) {
+                return bodyPart;
+            }
+        }
+        throw new IllegalArgumentException("Invalid BodyPart index: " + index);
     }
 }
