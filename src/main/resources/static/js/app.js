@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', async function() {
-    const current_date_elem = document.getElementById('current-date');
-    const current_body_part_elem = document.getElementById('current-body-part');
-    const next_date_elem = document.getElementById('next-date');
-    const next_body_part_elem = document.getElementById('next-body-part');
+    const currentDate = document.getElementById('current-date');
+    const currentBodyPart = document.getElementById('current-body-part');
+    const nextDate = document.getElementById('next-date');
+    const nextBodyPart = document.getElementById('next-body-part');
 
     async function fetchInjectionSchedule() {
         try {
@@ -19,16 +19,16 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     function renderSchedule(scheduleData) {
         if (scheduleData.length >= 2) {
-            current_date_elem.textContent = scheduleData[0].injectionDate;
-            current_body_part_elem.textContent = scheduleData[0].bodyPart;
-            next_date_elem.textContent = scheduleData[1].injectionDate;
-            next_body_part_elem.textContent = scheduleData[1].bodyPart;
+            currentDate.textContent = scheduleData[0].injectionDate;
+            currentBodyPart.textContent = scheduleData[0].bodyPart;
+            nextDate.textContent = scheduleData[1].injectionDate;
+            nextBodyPart.textContent = scheduleData[1].bodyPart;
         } else if (scheduleData.length === 1) {
             const injection = scheduleData[0];
-            current_date_elem.textContent = injection.injectionDate;
-            current_body_part_elem.textContent = injection.bodyPart;
-            next_date_elem.textContent = injection.injectionDate;
-            next_body_part_elem.textContent = injection.bodyPart;
+            currentDate.textContent = injection.injectionDate;
+            currentBodyPart.textContent = injection.bodyPart;
+            nextDate.textContent = injection.injectionDate;
+            nextBodyPart.textContent = injection.bodyPart;
         } else {
             console.error('No injection schedule data found');
         }
@@ -53,6 +53,10 @@ document.addEventListener('DOMContentLoaded', async function() {
                 throw new Error('Failed to mark injection as done');
             }
             await renderSchedule(scheduleData);
+            // Disable the button and visually indicate it has been used
+            markDoneBtn.disabled = true;
+            markDoneBtn.textContent = 'Már Beadva';
+            markDoneBtn.classList.add('used');
         } catch (error) {
             console.error('Error marking injection as done:', error);
         }

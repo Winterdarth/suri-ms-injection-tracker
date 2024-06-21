@@ -20,7 +20,6 @@ public enum BodyPart {
         return index;
     }
 
-    // Add a method to get BodyPart by index if needed
     public static BodyPart getNextBodyPart(int index) {
         for (BodyPart bodyPart : values()) {
             if (bodyPart.index == index) {

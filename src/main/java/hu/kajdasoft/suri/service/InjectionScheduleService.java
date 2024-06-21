@@ -6,6 +6,7 @@ import hu.kajdasoft.suri.repository.InjectionScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -48,9 +49,18 @@ public class InjectionScheduleService {
             InjectionSchedule schedule = new InjectionSchedule(bodyPart, currentDate, false);
             scheduleRepository.save(schedule);
 
-            // Move to the next injection date (every second day)
+            // Move to the next injection date (every second weekday)
             currentDate = currentDate.plusDays(2);
+
+            // If the new date is on a weekend, skip to Monday
+            if (currentDate.getDayOfWeek() == DayOfWeek.SATURDAY) {
+                currentDate = currentDate.plusDays(2);
+            } else if (currentDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                currentDate = currentDate.plusDays(1);
+            }
+
             currentIndex = (currentIndex + 1) % BodyPart.values().length; // Update currentIndex
         }
     }
+
 }

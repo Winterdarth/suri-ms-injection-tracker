@@ -17,16 +17,24 @@ public class EmailNotificationService {
 
     @Autowired
     private EmailSendingService emailSendingService;
-    private static final Logger logger = LoggerFactory.getLogger(EmailNotificationService.class);
 
-    @Scheduled(cron = "0 0 17-23 * * *")
-    //@Scheduled(initialDelay = 0, fixedDelay = 120000) // Run immediately, then every 2 minutes
+    //private static final Logger logger = LoggerFactory.getLogger(EmailNotificationService.class);
+
+    @Scheduled(cron = "0 */30 20-23 * * *")
     public void sendInjectionReminderEmails() {
         LocalDate today = LocalDate.now();
         InjectionSchedule schedule = scheduleRepository.findByInjectionDate(today);
 
         if (schedule != null && !schedule.isInjectionCompleted()) {
+            System.out.println("Injection is not completed. Sending email...");
+            emailSendingService.sendMail();
+        } else {
+            System.out.println("No need to send email. Injection is either completed or no schedule found.");
+        }
+        /*
+        if (schedule != null && !schedule.isInjectionCompleted()) {
             emailSendingService.sendMail();
         }
+         */
     }
 }

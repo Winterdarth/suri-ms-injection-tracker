@@ -17,7 +17,7 @@ public class EmailSendingService {
 
     private final JavaMailSender javaMailSender;
 
-    @Autowired
+    //@Autowired
     public EmailSendingService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
@@ -29,9 +29,9 @@ public class EmailSendingService {
     public SimpleMailMessage templateSimpleMessage() {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(emailFrom); // Use the configured 'emailFrom' value
-        message.setSubject("Suri Emlékeztető");
+        message.setSubject("Szuri Idő");
         message.setTo(emailTo); // Use the configured 'emailTo' value
-        message.setText("Test text");
+        message.setText("Ne felejsd el jelölni az alkalmazásban!");
         return message;
     }
 }
