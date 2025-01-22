@@ -1,6 +1,5 @@
 package hu.kajdasoft.suri.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,8 +15,6 @@ public class EmailSendingService {
     private String emailTo;
 
     private final JavaMailSender javaMailSender;
-
-    //@Autowired
     public EmailSendingService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
@@ -28,9 +25,9 @@ public class EmailSendingService {
 
     public SimpleMailMessage templateSimpleMessage() {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(emailFrom); // Use the configured 'emailFrom' value
+        message.setFrom(emailFrom);
         message.setSubject("Szuri Idő");
-        message.setTo(emailTo); // Use the configured 'emailTo' value
+        message.setTo(emailTo);
         message.setText("Ne felejsd el jelölni az alkalmazásban!");
         return message;
     }
