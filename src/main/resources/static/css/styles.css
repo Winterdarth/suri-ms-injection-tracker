@@ -40,7 +40,7 @@ p {
 }
 
 button {
-    background-color: #007bff;
+    background-color: #2e6f40 !important;
     color: #fff;
     border: 2px solid #0056b3;
     padding: 12px 20px;
@@ -54,7 +54,7 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #2e6f40 !important;
     border-color: #004080;
     color: #fff;
     transform: translateY(-2px);
@@ -63,15 +63,18 @@ button:hover {
 
 button:focus, button:active {
     outline: none;
-    box-shadow: 0 0 10px #007bff;
-    background-color: #004080;
+    box-shadow: 0 0 10px #2e6f40;
+    background-color: #008000 !important;
 }
 
 button:disabled {
-    background-color: #666;
-    background-color: #666;
+    background-color: #cd1c18 !important;
+    color: #ccc !important;
+    border-color: #0056b3 !important;
     cursor: not-allowed;
-    color: #ccc;
+    box-shadow: none !important;
 }
+
+
 
 

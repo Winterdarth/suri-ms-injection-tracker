@@ -3,6 +3,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     const currentBodyPart = document.getElementById('current-body-part');
     const nextDate = document.getElementById('next-date');
     const nextBodyPart = document.getElementById('next-body-part');
+    function formatBodyPart(bodyPart) {
+        return bodyPart
+            .replace(/_/g, ' ')
+            .toLowerCase()
+            .replace(/\b\w/g, (char) => char.toUpperCase());
+    }
 
     async function fetchInjectionSchedule() {
         try {
@@ -10,7 +16,12 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (!response.ok) {
                 throw new Error('Failed to fetch injection schedule data');
             }
-            return await response.json();
+            const data = await response.json();
+
+            return data.map(item => ({
+                ...item,
+                bodyPart: formatBodyPart(item.bodyPart)
+            }));
         } catch (error) {
             console.error('Error fetching injection schedule data:', error);
             return [];
@@ -69,5 +80,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         console.error('mark-done-btn not found');
     }
 
-    renderSchedule(await fetchInjectionSchedule());
+    const scheduleData = await fetchInjectionSchedule();
+    renderSchedule(scheduleData);
 });
