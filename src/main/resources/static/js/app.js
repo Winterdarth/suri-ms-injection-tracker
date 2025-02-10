@@ -43,6 +43,19 @@ document.addEventListener('DOMContentLoaded', async function() {
         } else {
             console.error('No injection schedule data found');
         }
+
+        const today = new Date().toISOString().split('T')[0];
+        const isToday = currentDate.textContent === today;
+
+        if (isToday) {
+            markDoneBtn.disabled = false;
+            markDoneBtn.textContent = "Beadtam";
+            markDoneBtn.classList.remove('used');
+        } else {
+            markDoneBtn.disabled = true;
+            markDoneBtn.textContent = "Majd";
+            markDoneBtn.classList.add('used');
+        }
     }
 
     async function markDone() {
@@ -64,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 throw new Error('Failed to mark injection as done');
             }
             await renderSchedule(scheduleData);
-            // Disable the button and visually indicate it has been used
+
             markDoneBtn.disabled = true;
             markDoneBtn.textContent = 'Már Beadva';
             markDoneBtn.classList.add('used');
