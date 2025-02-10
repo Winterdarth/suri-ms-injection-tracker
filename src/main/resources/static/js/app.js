@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const currentBodyPart = document.getElementById('current-body-part');
     const nextDate = document.getElementById('next-date');
     const nextBodyPart = document.getElementById('next-body-part');
+    const markDoneBtn = document.getElementById('mark-done-btn');
     function formatBodyPart(bodyPart) {
         return bodyPart
             .replace(/_/g, ' ')
@@ -86,7 +87,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     }
 
-    const markDoneBtn = document.getElementById('mark-done-btn');
     if (markDoneBtn) {
         markDoneBtn.addEventListener('click', markDone);
     } else {
