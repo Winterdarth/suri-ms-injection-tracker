@@ -7,4 +7,6 @@ import java.time.LocalDate;
 
 public interface InjectionScheduleRepository extends JpaRepository<InjectionSchedule, Long> {
     InjectionSchedule findByInjectionDate(LocalDate injectionDate);
+
+    InjectionSchedule findTopByOrderByInjectionDateDesc();
 }

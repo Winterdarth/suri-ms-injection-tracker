@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 public class InjectionScheduleService {
-    private static int currentIndex = 0;
+    // private static int currentIndex = 0;
 
     @Autowired
     private InjectionScheduleRepository scheduleRepository;
@@ -34,13 +34,22 @@ public class InjectionScheduleService {
         }
     }
 
+    private int getLastUsedBodyPartIndex() {
+        InjectionSchedule lastSchedule = scheduleRepository.findTopByOrderByInjectionDateDesc();
+        if (lastSchedule != null) {
+            return lastSchedule.getBodyPart().getIndex();
+        }
+        return 0;
+    }
+
     public void generateInjectionSchedulesForNextYear() {
         LocalDate startDate = LocalDate.now();
         LocalDate endDate = startDate.plusYears(1);
 
         LocalDate currentDate = startDate;
+        int lastUsedIndex = getLastUsedBodyPartIndex();
         while (currentDate.isBefore(endDate)) {
-            BodyPart bodyPart = getNextBodyPart(currentIndex);
+            BodyPart bodyPart = getNextBodyPart(lastUsedIndex);
             InjectionSchedule schedule = new InjectionSchedule(bodyPart, currentDate, false);
             scheduleRepository.save(schedule);
 
@@ -52,7 +61,7 @@ public class InjectionScheduleService {
                 currentDate = currentDate.plusDays(1);
             }
 
-            currentIndex = (currentIndex + 1) % BodyPart.values().length;
+            lastUsedIndex = (lastUsedIndex + 1) % BodyPart.values().length;
         }
     }
 
