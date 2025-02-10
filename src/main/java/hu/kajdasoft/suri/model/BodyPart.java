@@ -9,17 +9,13 @@ public enum BodyPart {
     BAL_HAS(4),
     BAL_FENEK(5),
     BAL_KAR(6);
-
     private final int index;
-
     BodyPart(int index) {
         this.index = index;
     }
-
     public int getIndex() {
         return index;
     }
-
     public static BodyPart getNextBodyPart(int index) {
         for (BodyPart bodyPart : values()) {
             if (bodyPart.index == index) {
