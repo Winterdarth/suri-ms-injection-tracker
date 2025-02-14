@@ -12,7 +12,6 @@ import java.util.List;
 
 @Service
 public class InjectionScheduleService {
-    // private static int currentIndex = 0;
 
     @Autowired
     private InjectionScheduleRepository scheduleRepository;
@@ -41,7 +40,42 @@ public class InjectionScheduleService {
         }
         return 0;
     }
+    public void resetInjectionCompletedFlags() {
+        LocalDate today = LocalDate.now();
+        List<InjectionSchedule> schedules = scheduleRepository.findAll();
 
+        for (InjectionSchedule schedule : schedules) {
+            if (schedule.getInjectionDate().isAfter(today)) {
+                schedule.setInjectionCompleted(false); // Reset flag for future schedules
+                scheduleRepository.save(schedule);
+            }
+        }
+    }
+
+    public void generateInjectionSchedulesForNextYear() {
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = startDate.plusYears(1);
+
+        LocalDate currentDate = startDate;
+        int lastUsedIndex = getLastUsedBodyPartIndex();
+        while (currentDate.isBefore(endDate)) {
+            BodyPart bodyPart = getNextBodyPart(lastUsedIndex);
+            InjectionSchedule schedule = new InjectionSchedule(bodyPart, currentDate, false); // Ensure injectionCompleted is false
+            scheduleRepository.save(schedule);
+
+            currentDate = currentDate.plusDays(2);
+
+            if (currentDate.getDayOfWeek() == DayOfWeek.SATURDAY) {
+                currentDate = currentDate.plusDays(2);
+            } else if (currentDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                currentDate = currentDate.plusDays(1);
+            }
+
+            lastUsedIndex = (lastUsedIndex + 1) % BodyPart.values().length;
+        }
+    }
+
+    /*
     public void generateInjectionSchedulesForNextYear() {
         LocalDate startDate = LocalDate.now();
         LocalDate endDate = startDate.plusYears(1);
@@ -64,5 +98,8 @@ public class InjectionScheduleService {
             lastUsedIndex = (lastUsedIndex + 1) % BodyPart.values().length;
         }
     }
+*/
+
+
 
 }

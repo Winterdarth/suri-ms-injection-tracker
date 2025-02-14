@@ -23,7 +23,15 @@ public class InjectionScheduleController {
 
     @PutMapping("/{scheduleId}/complete")
     public ResponseEntity<Void> markScheduleAsCompleted(@PathVariable Long scheduleId) {
+        System.out.println("Marking schedule as completed: " + scheduleId);
         scheduleService.markInjectionAsCompleted(scheduleId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    /*
+    @PutMapping("/{scheduleId}/complete")
+    public ResponseEntity<Void> markScheduleAsCompleted(@PathVariable Long scheduleId) {
+        scheduleService.markInjectionAsCompleted(scheduleId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+     */
 }

@@ -17,7 +17,26 @@ public class EmailNotificationService {
     private EmailSendingService emailSendingService;
 
 
-    @Scheduled(cron = "0 */30 20-23 * * *")
+    //@Scheduled(cron = "0 */30 20-23 * * *")
+    @Scheduled(cron = "0 * * * * *")
+    public void sendInjectionReminderEmails() {
+        LocalDate today = LocalDate.now();
+        InjectionSchedule schedule = scheduleRepository.findByInjectionDate(today);
+
+        if (schedule != null) {
+            System.out.println("Schedule found for today: " + schedule);
+            if (!schedule.isInjectionCompleted()) {
+                System.out.println("Injection is not completed. Sending email...");
+                emailSendingService.sendMail();
+            } else {
+                System.out.println("Injection is already completed. No email sent.");
+            }
+        } else {
+            System.out.println("No schedule found for today.");
+        }
+    }
+
+   /*
     public void sendInjectionReminderEmails() {
         LocalDate today = LocalDate.now();
         InjectionSchedule schedule = scheduleRepository.findByInjectionDate(today);
@@ -30,4 +49,5 @@ public class EmailNotificationService {
         }
 
     }
+    */
 }
