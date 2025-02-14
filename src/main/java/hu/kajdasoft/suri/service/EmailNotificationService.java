@@ -17,8 +17,7 @@ public class EmailNotificationService {
     private EmailSendingService emailSendingService;
 
 
-    //@Scheduled(cron = "0 */30 20-23 * * *")
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 */30 20-23 * * *")
     public void sendInjectionReminderEmails() {
         LocalDate today = LocalDate.now();
         InjectionSchedule schedule = scheduleRepository.findByInjectionDate(today);
