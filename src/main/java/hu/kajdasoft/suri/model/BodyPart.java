@@ -1,14 +1,14 @@
 package hu.kajdasoft.suri.model;
 
 public enum BodyPart {
-    JOBB_COMB(7),
-    JOBB_HAS(0),
-    JOBB_FENEK(1),
-    JOBB_KAR(2),
-    BAL_COMB(3),
-    BAL_HAS(4),
-    BAL_FENEK(5),
-    BAL_KAR(6);
+    JOBB_COMB(5),
+    JOBB_HAS(6),
+    JOBB_FENEK(7),
+    JOBB_KAR(0),
+    BAL_COMB(1),
+    BAL_HAS(2),
+    BAL_FENEK(3),
+    BAL_KAR(4);
     private final int index;
     BodyPart(int index) {
         this.index = index;
