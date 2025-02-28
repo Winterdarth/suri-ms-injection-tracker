@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class InjectionSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Enumerated(EnumType.STRING)
     private BodyPart bodyPart;
@@ -25,11 +25,11 @@ public class InjectionSchedule {
 
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
