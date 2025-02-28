@@ -95,35 +95,4 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     const scheduleData = await fetchInjectionSchedule();
     renderSchedule(scheduleData);
-
-    /*
-    async function markDone() {
-        try {
-            const scheduleData = await fetchInjectionSchedule();
-            if (scheduleData.length === 0) {
-                console.error('No injection schedule data found');
-                return;
-            }
-            const currentScheduleId = scheduleData[0].id;
-            const response = await fetch(`/api/schedules/${currentScheduleId}/complete`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ id: currentScheduleId })
-            });
-            if (!response.ok) {
-                throw new Error('Failed to mark injection as done');
-            }
-            await renderSchedule(scheduleData);
-
-            markDoneBtn.disabled = true;
-            markDoneBtn.textContent = 'Már Beadva';
-            markDoneBtn.classList.add('used');
-        } catch (error) {
-            console.error('Error marking injection as done:', error);
-        }
-    }
-     */
-
 });

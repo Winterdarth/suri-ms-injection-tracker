@@ -34,19 +34,4 @@ public class EmailNotificationService {
             System.out.println("No schedule found for today.");
         }
     }
-
-   /*
-    public void sendInjectionReminderEmails() {
-        LocalDate today = LocalDate.now();
-        InjectionSchedule schedule = scheduleRepository.findByInjectionDate(today);
-
-        if (schedule != null && !schedule.isInjectionCompleted()) {
-            System.out.println("Injection is not completed. Sending email...");
-            emailSendingService.sendMail();
-        } else {
-            System.out.println("No need to send email. Injection is either completed or no schedule found.");
-        }
-
-    }
-    */
 }

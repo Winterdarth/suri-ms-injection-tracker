@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/api/schedules")
 public class InjectionScheduleController {
@@ -27,11 +28,4 @@ public class InjectionScheduleController {
         scheduleService.markInjectionAsCompleted(scheduleId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    /*
-    @PutMapping("/{scheduleId}/complete")
-    public ResponseEntity<Void> markScheduleAsCompleted(@PathVariable Long scheduleId) {
-        scheduleService.markInjectionAsCompleted(scheduleId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-     */
 }

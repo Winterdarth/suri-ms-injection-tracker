@@ -74,32 +74,4 @@ public class InjectionScheduleService {
             lastUsedIndex = (lastUsedIndex + 1) % BodyPart.values().length;
         }
     }
-
-    /*
-    public void generateInjectionSchedulesForNextYear() {
-        LocalDate startDate = LocalDate.now();
-        LocalDate endDate = startDate.plusYears(1);
-
-        LocalDate currentDate = startDate;
-        int lastUsedIndex = getLastUsedBodyPartIndex();
-        while (currentDate.isBefore(endDate)) {
-            BodyPart bodyPart = getNextBodyPart(lastUsedIndex);
-            InjectionSchedule schedule = new InjectionSchedule(bodyPart, currentDate, false);
-            scheduleRepository.save(schedule);
-
-            currentDate = currentDate.plusDays(2);
-
-            if (currentDate.getDayOfWeek() == DayOfWeek.SATURDAY) {
-                currentDate = currentDate.plusDays(2);
-            } else if (currentDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
-                currentDate = currentDate.plusDays(1);
-            }
-
-            lastUsedIndex = (lastUsedIndex + 1) % BodyPart.values().length;
-        }
-    }
-*/
-
-
-
 }

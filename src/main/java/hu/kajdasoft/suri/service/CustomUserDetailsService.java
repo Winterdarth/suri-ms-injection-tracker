@@ -1,6 +1,5 @@
 package hu.kajdasoft.suri.service;
 
-import hu.kajdasoft.suri.model.User;
 import hu.kajdasoft.suri.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
