@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/schedules")
@@ -17,9 +19,15 @@ public class InjectionScheduleController {
 
     @GetMapping
     public ResponseEntity<List<InjectionSchedule>> getCurrentInjection() {
+        LocalDate today = LocalDate.now();
         List<InjectionSchedule> schedules = scheduleService.getAllSchedules();
-        System.out.println("Recevied schedules: " + schedules);
-        return new ResponseEntity<>(schedules, HttpStatus.OK);
+
+        List<InjectionSchedule> relevantSchedules = schedules.stream()
+                .filter(schedule -> !schedule.getInjectionDate().isBefore(today))
+                .collect(Collectors.toList());
+
+        System.out.println("Received schedules: " + relevantSchedules);
+        return new ResponseEntity<>(relevantSchedules, HttpStatus.OK);
     }
 
     @PutMapping("/{scheduleId}/complete")
